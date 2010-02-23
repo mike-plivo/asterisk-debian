@@ -1,0 +1,76 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+PERLLIBDIR=$(shell eval `perl -V:sitelib`; echo "$$sitelib")
+
+configure: configure-stamp
+configure-stamp:
+	./configure --prefix=$(CURDIR)/debian/dahdi-tools/usr --bindir=$(CURDIR)/debian/dahdi-tools/usr/bin --sbindir=$(CURDIR)/debian/dahdi-tools/usr/sbin --sysconfdir=$(CURDIR)/debian/dahdi-tools/etc --localstatedir=$(CURDIR)/debian/dahdi-tools/var --libdir=$(CURDIR)/debian/dahdi-tools/usr/lib --includedir=$(CURDIR)/debian/dahdi-tools/usr/include --datarootdir=$(CURDIR)/debian/dahdi-tools/usr/share --datadir=$(CURDIR)/debian/dahdi-tools/usr/share 
+	dh_testdir
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	rm -rf $(CURDIR)/debian/dahdi-tools
+	# Add here commands to clean up after the build process.
+	$(MAKE) clean
+	$(MAKE) distclean
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	cd $(CURDIR)
+	make 
+	make install HOTPLUG_USB_DIR=debian/dahdi-tools/etc/hotplug/usb PERLLIBDIR=debian/dahdi-tools/$(PERLLIBDIR)
+	make config DESTDIR=debian/dahdi-tools
+	mkdir -p debian/dahdi-tools/etc/init.d
+	mkdir -p debian/dahdi-tools/usr/share/perl5
+	cp -R xpp/perl_modules/* debian/dahdi-tools/usr/share/perl5/
+	chmod -R 755 debian/dahdi-tools/usr/share/perl5/Dahdi
+	chmod -R 755 debian/dahdi-tools/usr/share/perl5/Dahdi.pm
+	cp debian/dahdi.init debian/dahdi-tools/etc/init.d/dahdi
+	chmod 755 debian/dahdi-tools/etc/init.d/dahdi
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+#	dh_installdebconf	
+	dh_installdocs
+	dh_installexamples
+#	dh_installmanpages
+#	dh_undocumented
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+#	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

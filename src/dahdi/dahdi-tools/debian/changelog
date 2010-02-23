@@ -1,0 +1,6 @@
+dahdi-tools (2.2.1-1) stable; urgency=low
+
+  * Non-maintainer upload.
+  * Dahdi tools 2.2.1 for debian Lenny.
+
+ -- Michael Ricordeau <michael.ricordeau@gmail.com>  Tue, 23 Feb 2010 14:53:15 +0100

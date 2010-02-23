@@ -1,0 +1,28 @@
+Source: libpri
+Priority: optional
+Section: libs
+Maintainer: Michael Ricordeau <michael.ricordeau@gmail.com>
+Uploaders: Michael Ricordeau <michael.ricordeau@gmail.com> 
+Build-Depends: debhelper (>> 4.0.0), dpatch
+Standards-Version: 3.7.3
+Homepage: http://www.asterisk.org/
+
+Package: libpri1.4-dev
+Section: libdevel
+Architecture: any
+Depends: libpri1.4 (= ${binary:Version})
+Description: Primary Rate ISDN specification development files
+ Development files for the C implementation of the Primary Rate ISDN
+ specification.
+ 
+Package: libpri1.4
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libpri1.2 (<< 1.4.0-3)
+Replaces: libpri1.2 (<< 1.4.0-3)
+Description: Primary Rate ISDN specification library
+ C implementation of the Primary Rate ISDN specification.  It was
+ based on the Bellcore specification SR-NWT-002343 for National ISDN.  As of
+ May 12, 2001, it has been tested work with NI-2, Nortel DMS-100, and Lucent
+ 5E Custom protocols on switches from Nortel and Lucent

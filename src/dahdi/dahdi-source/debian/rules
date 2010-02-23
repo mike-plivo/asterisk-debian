@@ -1,0 +1,124 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Name of package
+PREFIX := dahdi
+SPKG := $(PREFIX)-source
+PACKAGE := $(PREFIX)-modules
+# modifieable for experiments or debugging m-a
+MA_DIR ?= /usr/share/modass
+# load generic variable handling
+-include $(MA_DIR)/include/generic.mk
+# load default rules
+-include $(MA_DIR)/include/common-rules.mk
+
+kdist_config: prep-deb-files
+
+binary-modules: prep-deb-files
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	cd $(CURDIR)
+	mkdir -p debian/$(PKGNAME)/lib/modules/$(KVERS)/misc
+	mkdir -p debian/$(PKGNAME)/etc/udev/rules.d
+	mkdir -p debian/$(PKGNAME)/usr/include/dahdi
+	mkdir -p debian/$(PKGNAME)/etc/modprobe.d
+	make KDIR=$(KSRC) DESTDIR=$(CURDIR)/debian/$(PKGNAME)/
+	make KDIR=$(KSRC) DESTDIR=$(CURDIR)/debian/$(PKGNAME)/ install
+	mv debian/$(PKGNAME)/etc/udev/rules.d/dahdi.rules  debian/$(PKGNAME)/etc/udev/rules.d/92-dahdi.rules
+	mv debian/$(PKGNAME)/etc/udev/rules.d/xpp.rules  debian/$(PKGNAME)/etc/udev/rules.d/93-xpp.rules
+#	dh_installdebconf	
+#	dh_installexamples
+#	dh_installmanpages
+#	dh_undocumented
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	# You may want to make some executables suid here.
+#	dh_suidregister
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_perl
+#	dh_shlibdeps
+	dh_gencontrol  -- -v$(VERSION)
+	dh_md5sums
+	dh_builddeb --destdir=$(DEB_DESTDIR)
+	#/sbin/update-modules
+
+.PHONY: clean
+kdist_clean:
+	-dh_testdir
+	-dh_testroot
+	rm -f build-stamp configure-stamp
+	-dh_clean
+	$(MAKE) clean || true
+
+
+
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# add stuff for configuration
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	rm -rf $(CURDIR)/debian/dahdi-source/usr
+	# Add here commands to clean up after the build process.
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	cd $(CURDIR)
+	mkdir -p $(CURDIR)/debian/dahdi-source/usr/src/modules
+	tar xfz dahdi-linux-2.2.1.tar.gz -C debian/dahdi-source/usr/src/modules
+	mkdir -p $(CURDIR)/debian/dahdi-source/usr/share/modass/packages
+	cp $(CURDIR)/debian/dahdi-source.modass $(CURDIR)/debian/dahdi-source/usr/share/modass/packages/dahdi-source
+	chmod 755 $(CURDIR)/debian/dahdi-source/usr/share/modass/packages/dahdi-source
+	mv $(CURDIR)/debian/dahdi-source/usr/src/modules/dahdi-linux-2.2.1 $(CURDIR)/debian/dahdi-source/usr/src/modules/dahdi
+	mkdir $(CURDIR)/debian/dahdi-source/usr/src/modules/dahdi/debian
+	cp -a debian/*modules.in* debian/rules debian/compat debian/changelog debian/copyright debian/control \
+		$(CURDIR)/debian/dahdi-source/usr/src/modules/dahdi/debian/
+	dh_fixperms
+	cd $(CURDIR)/debian/dahdi-source/usr/src && tar cfj dahdi-source.tar.bz2 modules/ && rm -rf modules
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installexamples
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

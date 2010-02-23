@@ -1,0 +1,14 @@
+Source: dahdi-linux
+Section: misc
+Priority: optional
+Maintainer: Michael Ricordeau <michael.ricordeau@gmail.com>
+Build-Depends: debhelper (>> 5.0.0), bzip2, libusb-dev
+Standards-Version: 3.7.2
+
+Package: dahdi-source
+Architecture: all
+Provides: dahdi-source
+Depends: module-assistant, debhelper, make, bzip2, udev, libusb-0.1-4
+Recommends: dahdi-tools
+Conflicts: zaptel-source, zaptel-modules
+Description: Dahdi Linux kernel modules source.

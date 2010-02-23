@@ -1,0 +1,6 @@
+dahdi-linux (2.2.1-1) stable; urgency=low
+
+  * Non-maintainer upload.
+  * Dahdi 2.2.1 kernel sources for debian Lenny.
+
+ -- Michael Ricordeau <michael.ricordeau@gmail.com>  Tue, 23 Feb 2010 14:42:29 +0100

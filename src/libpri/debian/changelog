@@ -1,0 +1,6 @@
+libpri (1.4.10.2-1) stable; urgency=low
+
+  * Non-maintainer upload.
+  * LibPRI 1.4.10 for debian lenny
+
+ -- Michael Ricordeau <michael.ricordeau@gmail.com>  Tue, 23 Feb 2010 14:26:26 +0100

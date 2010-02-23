@@ -1,0 +1,14 @@
+Source: dahdi-linux
+Section: misc
+Priority: optional
+Maintainer: Michael Ricordeau <m.ricordeau@newtech.fr>
+Build-Depends: debhelper (>> 5.0.0), bzip2
+Standards-Version: 3.7.2
+
+Package: dahdi-modules-_KVERS_
+Architecture: all
+Provides: dahdi-source
+Depends: module-assistant, debhelper, kernel-package, make, bzip2, udev
+Conflicts: zaptel-source, zaptel-modules
+Recommends: dahdi-tools
+Description: Dahdi Linux kernel _KVERS_ modules

@@ -1,0 +1,6 @@
+asterisk (1:1.4.29.1-1) stable; urgency=low
+
+  * Non-maintainer upload.
+  * Asterisk 1.4.29.1 for debian Lenny.
+
+ -- Michael Ricordeau <michael.ricordeau@gmail.com>  Tue, 23 Feb 2010 14:37:59 +0100

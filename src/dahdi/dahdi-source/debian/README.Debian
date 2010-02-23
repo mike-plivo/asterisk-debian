@@ -1,0 +1,10 @@
+Dahdi for Debian
+-------------------
+
+To build the dahdi-modules package, use the module-assistant utility.
+Run:
+
+ m-a a-i dahdi-source
+
+to generate the modules DEB package and install it
+

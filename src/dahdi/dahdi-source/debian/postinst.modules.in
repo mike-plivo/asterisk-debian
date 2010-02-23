@@ -1,0 +1,5 @@
+#!/bin/sh
+
+depmod -a _KVERS_
+
+#DEBHELPER#

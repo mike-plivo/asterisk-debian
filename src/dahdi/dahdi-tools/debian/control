@@ -1,0 +1,13 @@
+Source: dahdi-tools
+Section: misc
+Priority: optional
+Maintainer: Michael Ricordeau <michael.ricordeau@gmail.com>
+Build-Depends: debhelper (>> 5.0.0), bzip2, libusb-dev, dahdi (>= 2.1.0)
+Standards-Version: 3.7.2
+
+Package: dahdi-tools
+Architecture: all
+Provides: dahdi-tools
+Depends: dahdi-source, libusb-0.1-4
+Conflicts: zaptel, zaptel-source, zaptel-modules, libtonezone1, libtonezone-dev
+Description: Dahdi Tools
