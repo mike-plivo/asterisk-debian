@@ -2,4 +2,4 @@ Asterisk debian lenny packages
 
 * In packages directory: all debian packages for lenny
 * In src directory: only debian sources/rules to build debian packages
-* Get dahdi, libpri and asterisk sources from asterisk.org !
+* To build yourself, get dahdi, libpri and asterisk sources from asterisk.org !
